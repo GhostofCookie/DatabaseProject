@@ -12,3 +12,7 @@
 	display: inline-block;
 	border: 1px solid #222222;
 }
+
+textarea {
+	resize: none; min-height:100%;
+}

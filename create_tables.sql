@@ -7,7 +7,7 @@ CREATE TABLE Salesperson (
 );
 
 CREATE TABLE Customer (
-    CID varchar(10) PRIMARY KEY,
+    CID SERIAL PRIMARY KEY,
     Firstname varchar(50),
     Lastname varchar(50),
     Gender bit,
@@ -22,9 +22,9 @@ CREATE TABLE Customer (
 
 CREATE TABLE Sale (
     SaleNo int,
-    SID varchar(10),
-    CID varchar(10),
-    VIN varchar(17),
+    SID BIGINT UNSIGNED,
+    CID BIGINT UNSIGNED,
+    VIN BIGINT UNSIGNED,
     TotalDue numeric(10, 2),
     DownPayment numeric(10, 2),
     FinancedAmount numeric(10, 2),
@@ -37,8 +37,8 @@ CREATE TABLE Sale (
 );
 
 CREATE TABLE EmploymentHistory (
-    EHID varchar(10),
-    CID varchar(10),
+    EHID SERIAL,
+    CID  BIGINT UNSIGNED,
     Employer varchar(50),
     StartDate date,
     Title varchar(50),
@@ -88,7 +88,7 @@ CREATE TABLE NewCar (
 );
 
 CREATE TABLE Repair (
-    RID varchar(10), -- Doesn't need to be unique
+    RID SERIAL,
     VIN varchar(17),
     Problem text,
     RepairCost numeric(10, 2),
@@ -98,10 +98,10 @@ CREATE TABLE Repair (
 );
 
 CREATE TABLE Warranty (
-    WID varchar(10),
+    WID SERIAL,
     VIN varchar(17),
-    CID varchar(10),
-    SID varchar(10),
+    CID BIGINT UNSIGNED,
+    SID BIGINT UNSIGNED,
     ItemsCovered varchar(100),
     Deductible numeric(10, 2),
     MonthlyCost numeric(10, 2),
@@ -110,7 +110,7 @@ CREATE TABLE Warranty (
     CoSigner varchar(50),
     StartDate date,
     WarrantySalesDate date,
-    PRIMARY KEY (WID), --Maybe the primary key should be VIN and WID
+    PRIMARY KEY (WID),
     FOREIGN KEY (VIN) REFERENCES Car,
     FOREIGN KEY (CID) REFERENCES Customer,
     FOREIGN KEY (SID) REFERENCES Salesperson
@@ -118,7 +118,7 @@ CREATE TABLE Warranty (
 
 CREATE TABLE Payment (
     PaymentNo int,
-    CID varchar(10),
+    CID BIGINT UNSIGNED,
     BankAccount varchar(16),
     PaymentDate date,
     PaidDate date,
