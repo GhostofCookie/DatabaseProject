@@ -1,5 +1,34 @@
 <!DOCTYPE html>
 <?php
+
+$servername = "localhost:3306";
+$username = "root";
+$password = "";
+$conn = new mysqli($servername, $username, $password);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+else
+{
+    $conn->query("CREATE DATABASE dealership");
+    if($conn->select_db("dealership"))
+        if($conn->multi_query(file_get_contents("create_tables.sql")))
+            echo "";
+}
+
+function Input($width=4, $type, $id, $label, $placeholder="")
+{
+    $w = 12 - $width;
+    return  <<<HTML
+<div class="form-group">
+    <label class="control-label col-lg-$width" for="$id">$label</label>
+    <div class="col-lg-$w"><input type="$type" class="form-control" id="$id" placeholder="$placeholder" name="$id"></div>
+</div>
+HTML;
+
+}
+
 $page_id = isset($_GET["page_id"]) ? $_GET["page_id"] : false;
 ?>
 <html>
@@ -49,7 +78,7 @@ $page_id = isset($_GET["page_id"]) ? $_GET["page_id"] : false;
             $curr_page = "";
             break;
         case 5:
-            $curr_page = "";
+            $curr_page = "views.php";
             break;
         default:
             break;
@@ -60,7 +89,39 @@ $page_id = isset($_GET["page_id"]) ? $_GET["page_id"] : false;
 <?php
     if($curr_page) include($curr_page);
 ?>
+    <form id="t" method="post">
+        <input name="test" type="text" name="test">
+        <button >submit</button>
+    </form>
+    <div id="view">
+        <?=isset($_POST['test']) ? $_POST['test'] : "asd"; ?>
+    </div>
 </div>
 
 </body>
+<script>
+    $(document).on('submit',function(e){
+        e.preventDefault();
+    });
+
+    var submit;
+    $(document).on('click',':submit',function(){
+        submit = $(this);
+    });
+
+    $('#t').on("submit", function() {
+        $.ajax({
+            url: $(this).attr('action'),
+            type: $(this).attr('method'),
+            data: $(this).serialize() + "&" + escape($(submit).attr("name")) + "=" + escape($(submit).val()),
+            success: function (response) {
+                console.log("hello");
+                $('#view').replaceWith($('#view', $(response)));
+            }
+        });
+    });
+</script>
 </html>
+<?php
+$conn->close();
+?>
