@@ -7,6 +7,7 @@
 }
 
 .formbox {
+	cursor: pointer;
 	width: 300px;
     margin: 0 10px 10px 10px;
 	display: inline-block;
@@ -15,4 +16,12 @@
 
 textarea {
 	resize: none; min-height:100%;
+}
+
+.viewsforms__form {
+	display: none;
+}
+
+.viewsforms__form--active {
+	display: block;
 }

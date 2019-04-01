@@ -41,7 +41,7 @@ switch($page_id)
     case 3:  $curr_page = "car_sale.php";   break;
     case 4:  $curr_page = "warranties.php"; break;
     case 5:  $curr_page = "payments.php";   break;
-    default: $curr_page = "forms.php";      break;
+    default: $curr_page = "views.php";      break;
 }
 ?>
 <html>
@@ -74,11 +74,6 @@ switch($page_id)
     <div class="container-fluid">
         <div class="row">
             <?php if($curr_page) include($curr_page); ?>
-        </div>
-        <div class="row">
-            <div id="view">
-                <?= isset($_POST['date']) ? $_POST['date'] : ""; ?>
-            </div>
         </div>
     </div>
 </body>
