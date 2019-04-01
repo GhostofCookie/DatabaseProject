@@ -18,13 +18,13 @@ else
             echo "";
 }
 
-function Input($width=4, $type, $id, $label, $placeholder="")
+function Input($width=4, $type, $id, $label, $placeholder="", $required="required")
 {
     $w = 12 - $width;
     return  <<<HTML
     <div class="form-group">
         <label class="control-label col-lg-$width" for="$id">$label</label>
-        <div class="col-lg-$w"><input type="$type" class="form-control" id="$id" placeholder="$placeholder" name="$id" required></div>
+        <div class="col-lg-$w"><input type="$type" class="form-control" id="$id" placeholder="$placeholder" name="$id" $required></div>
     </div>
 HTML;
 

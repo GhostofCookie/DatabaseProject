@@ -15,9 +15,9 @@
 							<?=Input(3, "text", "city", "City:");?>
 							<?=Input(3, "text", "province", "Province:");?>
 							<?=Input(3, "text", "zip", "ZIP:");?>
-							</div>
 						</div>
 					</div>
+				</div>
 			</form>
 		</div>
 	</div>
