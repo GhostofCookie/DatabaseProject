@@ -1,26 +1,5 @@
 <?php
-	$model = isset($_POST["model"]) ? $_POST["model"] : "test";
-	
-	if (isset($model))
-	{
-		$sql = "SELECT * FROM Cars WHERE model=$model";
-		$result = $conn->query($sql);
-		
-		print $sql;
-		
-		$arr = array();
-		if ($result && $result->num_rows > 0)
-		{
-			
-			while ($row = $result->fetch_assoc())
-			{
-				array_push($arr, $row);
-			}
-		}
-		else {
-			// say there are no results.
-		}
-	}
+
 
 ?>
 
@@ -197,7 +176,31 @@
     </div>
 
     <div class="view" id="view">
-	<?php print_r($arr); ?>
+	<?php
+		$model = isset($_POST["model"]) ? $_POST["model"] : "test";
+	
+		if (isset($model))
+		{
+			$sql = "SELECT * FROM Cars WHERE model=$model";
+			$result = $conn->query($sql);
+			
+			print $sql;
+			
+			$arr = array();
+			if ($result && $result->num_rows > 0)
+			{
+				
+				while ($row = $result->fetch_assoc())
+				{
+					array_push($arr, $row);
+				}
+			}
+			else {
+				// say there are no results.
+			}
+		} 
+	print_r($arr); 
+	?>
     </div>
 
 </div> 
