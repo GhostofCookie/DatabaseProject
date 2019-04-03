@@ -86,9 +86,6 @@ switch($page_id)
         <div class="row">
             <?php if($curr_page) include($curr_page); ?>
         </div>
-        <div id="view">
-			<?= isset($_POST['customer']) ? $_POST['customer'] : "22"; ?>
-        </div>
     </div>
 </body>
 <script>

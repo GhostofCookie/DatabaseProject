@@ -5,6 +5,10 @@ CREATE TABLE Salesperson (
     PhoneNo bigint,
     Commission numeric(10, 2)
 );
+INSERT INTO Salesperson VALUES(001, 'Brett', 'Regnier', 4037894567, 100000.01);
+INSERT INTO Salesperson VALUES(002, 'Brandon', 'Hall', 4035849262, 100000.01);
+INSERT INTO Salesperson VALUES(003, 'Siebrand', 'Soule', 4032943501, 100000.01);
+INSERT INTO Salesperson VALUES(004, 'Tomas', 'Riguax', 4031038492, 100000.01);
 
 CREATE TABLE Customer (
     CID SERIAL PRIMARY KEY,
@@ -19,6 +23,9 @@ CREATE TABLE Customer (
     Province varchar(50),
     PostalCode varchar(6)
 );
+INSERT INTO Customer VALUES(999, 'Reid', 'Paulhus', 0, 4034560923, '1997-02-13', 2, 'Main Street', 'Calgary', 'Alberta', 'T3A2D9');
+INSERT INTO Customer VALUES(998, 'Tiller', 'Siwy', 0, 4030984759, '1993-12-01', 312, '2nd Street', 'Medicine Hat', 'Alberta', 'T3A1F5');
+INSERT INTO Customer VALUES(997, 'Ryan', 'Wenman', 0, 4039903344, '1994-03-05', 2493, 'Park ave', 'Airdrie', 'Alberta', 'T3A9T3');
 
 CREATE TABLE Sale (
     SaleNo int,
@@ -35,6 +42,9 @@ CREATE TABLE Sale (
     FOREIGN KEY (CID) REFERENCES Customer,
     FOREIGN KEY (VIN) REFERENCES Car
 );
+INSERT INTO Sale VALUES(000001001, 001, 999, '1G1ZS58NX8F126575', 7000.00, 3000.00, 7000.00, 0.05, '2019-02-14');
+INSERT INTO Sale VALUES(000002002, 002, 998, '1FD8X3ET9BEA40145', 13000.00, 4500.00, 16000.00, 0.07, '2017-04-05');
+INSERT INTO Sale VALUES(000003003, 003, 997, '1GCGC23W4DS128396', 30000.00, 2000.00, 40000.00, 0.06, '2019-03-20');
 
 CREATE TABLE EmploymentHistory (
     EHID SERIAL,
@@ -52,6 +62,10 @@ CREATE TABLE EmploymentHistory (
     PRIMARY KEY (EHID, CID),
     FOREIGN KEY (CID) REFERENCES Customer
 );
+INSERT INTO EmploymentHistory VALUES(0009999, 999, 'Pepsi Co.', '2018-09-10', 'Chip Boy', 'Shannon', 'Smith', 5, 'Valley Road', 'Lethbridge', 'Alberta', 'Y8G9F0');
+INSERT INTO EmploymentHistory VALUES(0009998, 998, 'Colour Me Mine', '2017-05-25', 'Chief Painter', 'Cindy', 'Toast', 1023, 'Ridge Road', 'Lethbridge', 'Alberta', 'Y8G7E2');
+INSERT INTO EmploymentHistory VALUES(0008998, 998, 'Pharmers Edge', '2018-05-25', 'Programmer', 'Becca', 'Ssatafasah', 324, 'Simon ave', 'Lethbridge', 'Alberta', 'Y8G8M3');
+INSERT INTO EmploymentHistory VALUES(0009997, 997, 'Pepsi Co.', '2017-05-25', 'Doritos Man', 'Gerald', 'Sharp', 5, 'Valley Road', 'Lethbridge', 'Alberta', 'Y8G9F0');
 
 CREATE TABLE Car (
     VIN varchar(17),
@@ -63,6 +77,9 @@ CREATE TABLE Car (
     Sold bit,
     PRIMARY KEY (VIN, PurchaseDate)
 );
+INSERT INTO Car VALUES('1G1ZS58NX8F126575', '2019-02-14', 'Corolla', 'BE', '2018', 'Black', 1);
+INSERT INTO Car VALUES('1FD8X3ET9BEA40145', '2017-04-05', 'Camry', 'CE', '2017', 'Blue', 1);
+INSERT INTO Car VALUES('1GCGC23W4DS128396', '2019-03-20', 'Rav4', 'XE', '2019', 'Grey', 1);
 
 CREATE TABLE UsedCar (
     VIN varchar(17) PRIMARY KEY,
@@ -77,6 +94,9 @@ CREATE TABLE UsedCar (
     PostalCode varchar(6),
     FOREIGN KEY (VIN) REFERENCES Car
 );
+INSERT INTO UsedCar VALUES('1G1ZS58NX8F126575', 'Tomas Express', 89347, 10000.00, 6000.00, 600, 'Cole St.', 'Toronto', 'Ontario', 'A3Q7B4');
+INSERT INTO UsedCar VALUES('1FD8X3ET9BEA40145', 'Ryan', 74302, 20500.00, 12000.00, 2493, 'Park ave', 'Airdrie', 'Alberta', 'T3A9T3');
+INSERT INTO UsedCar VALUES('2MEBP72XXGB668354', 'Nicole Motorsport', 126594, 8500.00, 3000.00, 342, '1st ave', 'Okotoks', 'Alberta', 'B0M3T3');
 
 CREATE TABLE NewCar (
     VIN varchar(17) PRIMARY KEY,
@@ -86,6 +106,7 @@ CREATE TABLE NewCar (
     FlatFee numeric (6, 2),
     FOREIGN KEY (VIN) REFERENCES Car
 );
+INSERT INTO NewCar VALUES('1GCGC23W4DS128396', 53, 35000.00, 'Grey', 2000.00);
 
 CREATE TABLE Repair (
     RID SERIAL,
@@ -96,6 +117,7 @@ CREATE TABLE Repair (
     PRIMARY KEY (RID, VIN),
     FOREIGN KEY (VIN) REFERENCES Car
 );
+INSERT INTO Repair VALUES('000301', '2MEBP72XXGB668354', "Eject seat button broken", 9000.00, 6000.00);
 
 CREATE TABLE Warranty (
     WID SERIAL,
