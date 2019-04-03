@@ -14,7 +14,11 @@ else
     $conn->query("CREATE DATABASE dealership");
     if($conn->select_db("dealership"))
         if($conn->multi_query(file_get_contents("create_tables.sql")))
+        {
             echo "";
+		}
+		else echo $conn->error;
+
 }
 function Input($width=4, $type, $id, $label, $placeholder="", $required="required")
 {

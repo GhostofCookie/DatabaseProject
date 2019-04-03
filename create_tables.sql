@@ -31,7 +31,7 @@ CREATE TABLE Sale (
     SaleNo int,
     SID BIGINT UNSIGNED,
     CID BIGINT UNSIGNED,
-    VIN BIGINT UNSIGNED,
+    VIN varchar(17),
     TotalDue numeric(10, 2),
     DownPayment numeric(10, 2),
     FinancedAmount numeric(10, 2),
