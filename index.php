@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <?php
-
 $servername = "localhost:3306";
 $username = "root";
 $password = "";
@@ -17,17 +16,29 @@ else
         if($conn->multi_query(file_get_contents("create_tables.sql")))
             echo "";
 }
-
 function Input($width=4, $type, $id, $label, $placeholder="", $required="required")
 {
     $w = 12 - $width;
-    return  <<<HTML
+    switch($type)
+    {
+        case "textarea":
+	        return <<<HTML
+<div class="col-lg-12">
+    <div class="form-group">
+        <!--label class="control-label" for="problem">$label</label-->
+        <textarea class="form-control" id="$id" placeholder="$placeholder" name="$id"></textarea>
+    </div>
+</div>
+HTML;
+	        break;
+        default:
+			return  <<<HTML
     <div class="form-group">
         <label class="control-label col-lg-$width" for="$id">$label</label>
         <div class="col-lg-$w"><input type="$type" class="form-control" id="$id" placeholder="$placeholder" name="$id" $required></div>
     </div>
 HTML;
-
+	}
 }
 
 $page_id = isset($_GET["page_id"]) ? $_GET["page_id"] : false;
@@ -74,6 +85,9 @@ switch($page_id)
     <div class="container-fluid">
         <div class="row">
             <?php if($curr_page) include($curr_page); ?>
+        </div>
+        <div id="view">
+			<?= isset($_POST['customer']) ? $_POST['customer'] : "22"; ?>
         </div>
     </div>
 </body>

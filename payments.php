@@ -8,13 +8,10 @@
 					<div class="panel panel-default">
 						<div class="panel-heading">Customer</div>
 						<div class="panel-body">
-							<?=Input(3, "number", "phone-cust", "Phone:");?>
-							<?=Input(3, "text", "lastname-cust", "Last Name:");?>
-							<?=Input(3, "text", "firstname-cust", "First Name:");?>
-							<?=Input(3, "text", "address-cust", "Address:");?>
-							<?=Input(3, "text", "city", "City:");?>
-							<?=Input(3, "text", "province", "Province:");?>
-							<?=Input(3, "text", "zip", "ZIP:");?>
+							<?=Input(4, "text", "gender", "Gender:");?>
+							<?=Input(4, "date", "dob", "Date of Birth:");?>
+							<?=Input(4, "number", "num-late-pay", "Number of Late Payments:");?>
+							<?=Input(4, "number", "avg-late-days", "Avergae Number of Days Late:");?>
 						</div>
 					</div>
 				</div>

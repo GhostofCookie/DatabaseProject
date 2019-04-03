@@ -23,7 +23,30 @@ $interior_colour    = isset($_POST['interior-colour'])  ? $_POST['interior-colou
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-body">
-							<?= Input(3, "text", "model", "Model:", "Enter Model");?>
+							<?php
+							$sql = "SELECT model FROM car";
+							$result = $conn->query($sql);
+							$arr = array();
+							if($result->num_rows > 0)
+							{
+								while($row = $result->fetch_assoc())
+									array_push($arr, $row);
+							}
+
+							$w = 12 - 3;
+							$return = <<<HTML
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3" for="model">Model:</label>
+HTML;
+							$return .= "<div class='col-lg-$w'><select id='model' name='model' class=\"form-control\"><option selected>- Select Model -</option>";
+							foreach ($arr as $key => $val)
+								$return .= "<option>". $val['model'] . "</option>";
+							$return .= "</select></div>";
+							$return .= <<<HTML
+                                </div>
+HTML;
+							echo $return;
+							?>
 							<?= Input(3, "text", "edition", "Edition:", "Enter Edition");?>
 							<?= Input(3, "number", "year", "Year:", "Enter Year");?>
                         </div>
