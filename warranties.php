@@ -8,7 +8,7 @@
 					<div class="panel panel-default">
 						<div class="panel-heading">Vehicle Info</div>
 						<div class="panel-body">
-							<?= Input(5, "number", "vin", "VIN:", "");?>
+							<?= Input(5, "text", "vin", "VIN:", "");?>
 							<? // REPLACE THIS WITH A SELECT ?>
                             <?php
 							$sql = "SELECT CID, Lastname, Firstname FROM customer";
@@ -66,7 +66,10 @@ HTML;
                         </div>
                     </div>
                 </div>
-				<div class="col-lg-12"><button type="submit" class="btn btn-success">Submit</button></div>
+				<div class="col-lg-12">
+                    <input type="hidden" name="submit">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
 			</form>
 		</div>
 	</div>

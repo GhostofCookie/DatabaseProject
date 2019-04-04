@@ -4,6 +4,7 @@ $servername = "localhost:3306";
 $username = "root";
 $password = "";
 $conn = new mysqli($servername, $username, $password);
+$SQL = "";
 
 if ($conn->connect_error)
 {
@@ -14,10 +15,7 @@ else
     $conn->query("CREATE DATABASE dealership");
     if($conn->select_db("dealership"))
         if($conn->multi_query(file_get_contents("create_tables.sql")))
-        {
             echo "";
-		}
-		else echo $conn->error;
 
 }
 function Input($width=4, $type, $id, $label, $placeholder="", $required="required")
@@ -90,21 +88,35 @@ switch($page_id)
         <div class="row">
             <?php if($curr_page) include($curr_page); ?>
         </div>
+        <div id="view">
+            <?php
+			if(isset($_POST['submit']) && $SQL != "")
+			{
+			    print $SQL;
+				$result = $conn->multi_query($SQL);
+                var_dump($result);
+			}
+            ?>
+        </div>
     </div>
 </body>
 <script>
     $(document).on('submit',function(e){ e.preventDefault(); });
 
-    $("#<?=$_GET['form']?>").on("submit", function() {
+        $("#<?=$_GET['form']?>").on("submit", Load);
+    function Load() {
         $.ajax({
             url: $(this).attr('action'),
             type: $(this).attr('method'),
             data: $(this).serialize(),
             success: function (response) {
                 $('#view').replaceWith($('#view', $(response)));
+                $('#<?= $_GET['form']?>').replaceWith($('#<?= $_GET['form']?>', $(response)));
+                setTimeout(function(){ location.reload(); }, 3000);
             }
         });
-    });
+    }
+
 </script>
 </html>
 <?php

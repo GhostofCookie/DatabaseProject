@@ -1,32 +1,54 @@
 <?php
 $date           = isset($_POST['date'])             ? "\"".$_POST['date']."\"" : "";
-$vin            = isset($_POST['vin'])              ? $_POST['vin'] : "";
-$model          = isset($_POST['model'])            ? $_POST['model'] : "";
-$edition        = isset($_POST['edition'])          ? $_POST['edition'] : "";
+$vin            = isset($_POST['vin'])              ? "\"".$_POST['vin']."\"" : "";
+$model          = isset($_POST['model'])            ? "\"".$_POST['model']."\"" : "";
+$edition        = isset($_POST['edition'])          ? "\"".$_POST['edition']."\"" : "";
 $year           = isset($_POST['year'])             ? $_POST['year'] : "";
 $miles          = isset($_POST['miles'])            ? $_POST['miles'] : "";
-$sale_price     = isset($_POST['sale-price'])       ? $_POST['sale-price'] : "";
+$sale_price     = isset($_POST['sale-price'])       ? $_POST['sale-price'] * 1.05 : "";
 $total_due      = isset($_POST['total-due'])        ? $_POST['total-due'] : "";
 $down_pay       = isset($_POST['down-payment'])     ? $_POST['down-payment'] : "";
 $finance_amt    = isset($_POST['finance-amt'])      ? $_POST['finance-amt'] : "";
 $interest       = isset($_POST['interest'])         ? $_POST['interest'] : "";
-$lastname_sp    = isset($_POST['lastname-sp'])      ? $_POST['lastname-sp'] : "";
-$firstname_sp   = isset($_POST['firstname-sp'])     ? $_POST['firstname-sp'] : "";
+$lastname_sp    = isset($_POST['lastname-sp'])      ? "\"".$_POST['lastname-sp']."\"" : "";
+$firstname_sp   = isset($_POST['firstname-sp'])     ? "\"".$_POST['firstname-sp']."\"" : "";
 $commission     = isset($_POST['commission'])       ? $_POST['commission'] : "";
 $phone_sp       = isset($_POST['phone-sp'])         ? $_POST['phone-sp'] : "";
 $phone_cust     = isset($_POST['phone-cust'])       ? $_POST['phone-cust'] : "";
-$lastname_cust  = isset($_POST['lastname-cust'])    ? $_POST['lastname-cust'] : "";
-$firstname_cust = isset($_POST['firstname-cust'])   ? $_POST['firstname-cust'] : "";
-$address_cust   = isset($_POST['address-cust'])     ? $_POST['address-cust'] : "";
-$city           = isset($_POST['city'])             ? $_POST['city'] : "";
-$province       = isset($_POST['province'])         ? $_POST['province'] : "";
-$zip            = isset($_POST['zip'])              ? $_POST['zip'] : "";
-$employer       = isset($_POST['employer'])         ? $_POST['employer'] : "";
-$title          = isset($_POST['title'])            ? $_POST['title'] : "";
-$super          = isset($_POST['super'])            ? $_POST['super'] : "";
+$lastname_cust  = isset($_POST['lastname-cust'])    ? "\"".$_POST['lastname-cust']."\"" : "";
+$firstname_cust = isset($_POST['firstname-cust'])   ? "\"".$_POST['firstname-cust']."\"" : "";
+$address_cust   = isset($_POST['address-cust'])     ? "\"".$_POST['address-cust']."\"" : "";
+$city           = isset($_POST['city'])             ? "\"".$_POST['city']."\"" : "";
+$province       = isset($_POST['province'])         ? "\"".$_POST['province']."\"" : "";
+$zip            = isset($_POST['zip'])              ? "\"".$_POST['zip']."\"" : "";
+$employer       = isset($_POST['employer'])         ? "\"".$_POST['employer']."\"" : "";
+$title          = isset($_POST['title'])            ? "\"".$_POST['title']."\"" : "";
+$super_first    = isset($_POST['super'])            ? "\"".explode(" ",$_POST['super'])[0]."\"" : "";
+$super_last     = isset($_POST['super'])            ? "\"".explode(" ",$_POST['super'])[1]."\"" : "";
 $phone_eh       = isset($_POST['phone-eh'])         ? $_POST['phone-eh'] : "";
-$address_eh     = isset($_POST['address-eh'])       ? $_POST['address-eh'] : "";
+$eh_street_no   = isset($_POST['address-eh'])       ? explode(",", $_POST['address-eh'])[0] : "";
+$eh_street      = isset($_POST['address-eh'])       ? "\"".explode(",", $_POST['address-eh'])[1]."\"" : "";
+$eh_city        = isset($_POST['address-eh'])       ? "\"".explode(",", $_POST['address-eh'])[2]."\"" : "";
+$eh_province    = isset($_POST['address-eh'])       ? "\"".explode(",", $_POST['address-eh'])[3]."\"" : "";
+$eh_zip         = isset($_POST['address-eh'])       ? "\"".explode(",", $_POST['address-eh'])[4]."\"" : "";
 $start          = isset($_POST['start'])            ? "\"".$_POST['start']."\"" : "";
+
+$cid = "";
+$sql = "SELECT CID FROM Customer WHERE Firstname=$firstname_cust AND Lastname=$lastname_cust AND PhoneNo=$phone_cust AND City=$city AND Province=$province AND PostalCode=$zip";
+if($result = $conn->query($sql))
+    while($row = $result->fetch_row())
+        $cid = $row[0];
+$sid = "";
+$sql = "SELECT SID FROM Salesperson WHERE Firstname=$firstname_sp AND Lastname=$lastname_sp AND PhoneNo=$phone_sp";
+if($result = $conn->query($sql))
+	while($row = $result->fetch_row())
+		$sid = $row[0];
+
+$SQL = <<<SQL
+INSERT INTO Sale (SID, CID, VIN, TotalDue, DownPayment, FinancedAmount, InterestRate, SaleDate) VALUES($sid, $cid, $vin, $total_due, $down_pay, $finance_amt, $interest, $date);
+INSERT INTO EmploymentHistory (CID, Employer, StartDate, Title, SupervisorFirstName, SupervisorLastName, StreetNo, StreetName, City, Province, PostalCode) VALUES($cid, $employer, $start, $title, $super_first, $super_last, $eh_street_no, $eh_street, $eh_city, $eh_province, $eh_zip);
+SQL;
+
 ?>
 <div class="col-lg-2"></div>
 <div class="col-lg-8">
@@ -42,9 +64,9 @@ $start          = isset($_POST['start'])            ? "\"".$_POST['start']."\"" 
                                 <div class="panel-body">
                                     <div class="col-lg-12">
                                         <?=Input(5, "date", "date", "Date:");?>
-                                        <?=Input(5, "text", "total-due", "Total Due:", "Enter Total");?>
-                                        <?=Input(5, "text", "down-payment", "Down Payment:", "Enter Payment");?>
-                                        <?=Input(5, "text", "finance-amt", "Financed Amount:", "Enter Amount");?>
+                                        <?=Input(5, "number", "total-due", "Total Due:", "Enter Total");?>
+                                        <?=Input(5, "number", "down-payment", "Down Payment:", "Enter Payment");?>
+                                        <?=Input(5, "number", "finance-amt", "Financed Amount:", "Enter Amount");?>
                                         <?=Input(5, "number", "interest", "Interest:", "Enter Rate");?>
                                     </div>
                                 </div>
@@ -106,9 +128,9 @@ $start          = isset($_POST['start'])            ? "\"".$_POST['start']."\"" 
                             <div class="panel panel-default">
                                 <div class="panel-heading">Vehicle Info</div>
                                 <div class="panel-body">
-                                    <?= Input(3, "number", "vin", "VIN:", "");?>
+                                    <?= Input(3, "text", "vin", "VIN:", "");?>
                                     <?php
-									$sql = "SELECT model FROM car";
+									$sql = "SELECT DISTINCT model FROM car";
 									$result = $conn->query($sql);
 									$arr = array();
 									if($result->num_rows > 0)
@@ -141,6 +163,7 @@ HTML;
                     </div>
                 </div>
                 <div class="col-lg-12">
+                    <input type="hidden" name="submit">
                     <button type="submit" class="btn btn-success">Submit</button>
                 </div>
             </form>
