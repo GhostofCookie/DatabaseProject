@@ -119,7 +119,6 @@ switch($page_id)
             data: $(this).serialize(),
             success: function (response) {
                 $('#view').replaceWith($('#view', $(response)));
-                alert(id);
                 if(id == "<?= $_GET['form']?>")
                 {
                     $('#<?= $_GET['form']?>').replaceWith($('#<?= $_GET['form']?>', $(response)));
