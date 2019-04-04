@@ -14,6 +14,30 @@
 	border: 1px solid #222222;
 }
 
+.reportbox {
+	cursor: pointer;
+	width: 200px;
+    margin: 0 10px 10px 10px;
+	display: inline-block;
+	border: 1px solid #222222;	
+}
+
+.reportbox button {	
+    background: none;
+	border: none;
+	width: 100%;
+}
+.reportbox h3 {
+	display: block;
+	border-bottom: 1px solid black;
+}
+.reportbox p {
+	display: block;
+    float: left;
+    text-align: center;
+    width: 100%;
+}
+
 textarea {
 	resize: none; min-height:100%;
 }

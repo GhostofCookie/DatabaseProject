@@ -56,6 +56,7 @@ switch($page_id)
     case 3:  $curr_page = "car_sale.php";   break;
     case 4:  $curr_page = "warranties.php"; break;
     case 5:  $curr_page = "payments.php";   break;
+    case 6:  $curr_page = "reports.php";    break;
     default: $curr_page = "views.php";      break;
 }
 ?>
@@ -68,7 +69,6 @@ switch($page_id)
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <!-- END BOOTSTRAP -->
     <link rel="stylesheet" href="css/view.css">
-    <script src="js/view.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-static-top">
@@ -78,6 +78,7 @@ switch($page_id)
             </div>
             <ul class="nav navbar-nav">
                 <li <?= !$page_id     ? "class=\"active\"" : ""?>><a href="index.php">Home</a></li>
+                <li <?= $page_id == 6 ? "class=\"active\"" : ""?>><a href="?page_id=6">Reports</a></li>
                 <li <?= $page_id == 1 ? "class=\"active\"" : ""?>><a href="?page_id=1">New Car Purchase</a></li>
                 <li <?= $page_id == 2 ? "class=\"active\"" : ""?>><a href="?page_id=2">Used Car Purchase</a></li>
                 <li <?= $page_id == 3 ? "class=\"active\"" : ""?>><a href="?page_id=3">Car Sale</a></li>
@@ -98,7 +99,11 @@ switch($page_id)
 		e.stopImmediatePropagation();
 		});
 
-    $("#<?=$_GET['form']?>,#carform,#saleform,#salepersonform,#warrantyform,#paymentform").on("submit", function() {
+        // weird names but they are from reports.php
+        reports = "";
+        for (var i = 0; i < 5; i++) reports += "#bas"+i+",";
+        for (var i = 0; i < 5; i++) reports += "#adv"+i+",";
+    $("#<?=$_GET['form']?>," + reports + "#carform,#saleform,#salepersonform,#warrantyform,#paymentform").on("submit", function() {
         $.ajax({
             url: $(this).attr('action'),
             type: $(this).attr('method'),
