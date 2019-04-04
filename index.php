@@ -93,9 +93,12 @@ switch($page_id)
     </div>
 </body>
 <script>
-    $(document).on('submit',function(e){ e.preventDefault(); });
+    $(document).on('submit',function(e){ 
+		e.preventDefault(); 
+		e.stopImmediatePropagation();
+		});
 
-    $("#<?=$_GET['form']?>").on("submit", function() {
+    $("#<?=$_GET['form']?>,#carform,#saleform,#salepersonform,#warrantyform,#paymentform").on("submit", function() {
         $.ajax({
             url: $(this).attr('action'),
             type: $(this).attr('method'),
