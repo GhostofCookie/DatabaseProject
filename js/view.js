@@ -21,7 +21,7 @@ window.onload = function()
 	});
     if(document.getElementById("paymentsbtn"))
 	document.getElementById("paymentsbtn").addEventListener("click", function() {
-		BoxClick(document.getElementById("paymentform"));
+		BoxClick(document.getElementById("paymentsform"));
 	});
 	
 	function BoxClick(obj) {
