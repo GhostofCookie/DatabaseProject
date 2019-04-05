@@ -121,10 +121,10 @@ switch($page_id)
                 $('#view').replaceWith($('#view', $(response)));
                 if(id == "<?= $_GET['form']?>")
                 {
-                    $('#<?= $_GET['form']?>').replaceWith($('#<?= $_GET['form']?>', $(response)));
-                    setTimeout(function () {
+                    //$('#<?= $_GET['form']?>').replaceWith($('#<?= $_GET['form']?>', $(response)));
+                    /*setTimeout(function () {
                         location.reload();
-                    }, 3000);
+                    }, 3000);*/
                 }
             }
         });

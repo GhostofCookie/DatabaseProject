@@ -1,3 +1,46 @@
+<?php
+$cid            = isset($_POST['customer'])         ? $_POST['customer'] : "";
+$vin            = isset($_POST['vin'])          ? "\"".$_POST['vin']."\"" : "";
+$co_signer      = isset($_POST['co-signer'])        ? "\"".$_POST['co-signer']."\"" : "";
+$war_sale_date  = isset($_POST['war-sale-date'])    ? "\"".$_POST['war-sale-date']."\"" : "";
+$monthly_cost   = isset($_POST['monthly-cost'])     ? $_POST['monthly-cost'] : "";
+$lastname_sp    = isset($_POST['lastname-sp'])      ? "\"".$_POST['lastname-sp']."\"" : "";
+$firstname_sp   = isset($_POST['firstname-sp'])     ? "\"".$_POST['firstname-sp']."\"" : "";
+$phone_sp       = isset($_POST['phone-sp'])         ? $_POST['phone-sp'] : "";
+$start_date     = isset($_POST['start-date'])       ? "\"".$_POST['start-date']."\"" : "";
+$length         = isset($_POST['length'])           ? $_POST['length'] : "";
+$total_cost     = isset($_POST['total-cost'])       ? $_POST['total-cost'] : "";
+$cost           = isset($_POST['cost'])             ? $_POST['cost'] : "";
+$deductible     = isset($_POST['deductible'])       ? $_POST['deductible'] : "";
+$items          = isset($_POST['items-covered'])    ? "\"".$_POST['items-covered']."\"" : "";
+
+
+$sid = "";
+$sql = "SELECT SID FROM Salesperson WHERE Firstname=$firstname_sp AND Lastname=$lastname_sp AND PhoneNo=$phone_sp";
+if($result = $conn->query($sql))
+	while($row = $result->fetch_row())
+		$sid = $row[0];
+
+$wid = "";
+$sql = "SELECT DISTINCT WID FROM Warranty WHERE VIN=$vin AND SID=$sid AND CID=$cid AND StartDate=$start_date AND WarrantySalesDate=$war_sale_date";
+if($result = $conn->query($sql))
+	while($row = $result->fetch_row())
+		$wid = $row[0];
+
+print $wid;
+
+if(!$wid) {
+	$sql = "SELECT MAX(WID) FROM Warranty";
+	if ($result = $conn->query($sql))
+		while ($row = $result->fetch_row())
+			$wid = max($row[0] + 1, $wid);
+
+	$SQL = <<<SQL
+INSERT INTO Warranty VALUES($wid, $vin, $sid, $cid, $items, $deductible, $monthly_cost, $total_cost, $length, $co_signer, $start_date, $war_sale_date);
+SQL;
+}
+else $SQL = "";
+?>
 <div class="col-lg-2"></div>
 <div class="col-lg-8">
 	<div class="panel panel-primary">
@@ -9,7 +52,6 @@
 						<div class="panel-heading">Vehicle Info</div>
 						<div class="panel-body">
 							<?= Input(5, "text", "vin", "VIN:", "");?>
-							<? // REPLACE THIS WITH A SELECT ?>
                             <?php
 							$sql = "SELECT CID, Lastname, Firstname FROM customer";
 							$result = $conn->query($sql);
@@ -56,7 +98,6 @@ HTML;
                     <div class="panel panel-default">
                         <div class="panel-heading"></div>
                         <div class="panel-body">
-							<?=Input(4, "text", "warranty", "Warranty:");?>
 							<?=Input(4, "date", "start-date", "Start Date:");?>
 							<?=Input(4, "number", "length", "Length:");?>
 							<?=Input(4, "number", "cost", "Cost:");?>

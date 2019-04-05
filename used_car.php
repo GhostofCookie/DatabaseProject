@@ -19,10 +19,17 @@ $province       = isset($_POST['province'])     ? "\"".$_POST['province']."\"" :
 $zip            = isset($_POST['zip'])          ? "\"".$_POST['zip']."\"" : "";
 $seller         = isset($_POST['seller'])       ? "\"".$_POST['seller']."\"" : "";
 
+
+$rid = "";
+$sql = "SELECT MAX(RID) FROM Repair";
+if($result = $conn->query($sql))
+	while($row = $result->fetch_row())
+		$rid = max($row[0] + 1, $rid);
+
 $SQL = <<<SQL
-INSERT INTO UsedCar VALUES($vin, $seller, $miles, $book_price, $paid_price, $street_no,$street, $city, $province, $zip);
 INSERT INTO Car VALUES($vin, $date, $model, $edition, $year, $colour, 0);
-INSERT INTO Repair (VIN, Problem, RepairCost, ActualCost) VALUES($vin, $problem, $repair_cost, $actual_cost);
+INSERT INTO UsedCar VALUES($vin, $seller, $miles, $book_price, $paid_price, $street_no,$street, $city, $province, $zip);
+INSERT INTO Repair VALUES($rid, $vin, $problem, $repair_cost, $actual_cost);
 SQL;
 
 ?>

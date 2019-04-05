@@ -18,6 +18,8 @@ $phone_cust     = isset($_POST['phone-cust'])       ? $_POST['phone-cust'] : "";
 $lastname_cust  = isset($_POST['lastname-cust'])    ? "\"".$_POST['lastname-cust']."\"" : "";
 $firstname_cust = isset($_POST['firstname-cust'])   ? "\"".$_POST['firstname-cust']."\"" : "";
 $address_cust   = isset($_POST['address-cust'])     ? "\"".$_POST['address-cust']."\"" : "";
+$cu_street_no   = isset($_POST['address-cust'])     ? explode(",", $_POST['address-cust'])[0] : "";
+$cu_street      = isset($_POST['address-cust'])     ? "\"".explode(",", $_POST['address-cust'])[1]."\"" : "";
 $city           = isset($_POST['city'])             ? "\"".$_POST['city']."\"" : "";
 $province       = isset($_POST['province'])         ? "\"".$_POST['province']."\"" : "";
 $zip            = isset($_POST['zip'])              ? "\"".$_POST['zip']."\"" : "";
@@ -34,20 +36,42 @@ $eh_zip         = isset($_POST['address-eh'])       ? "\"".explode(",", $_POST['
 $start          = isset($_POST['start'])            ? "\"".$_POST['start']."\"" : "";
 
 $cid = "";
-$sql = "SELECT CID FROM Customer WHERE Firstname=$firstname_cust AND Lastname=$lastname_cust AND PhoneNo=$phone_cust AND City=$city AND Province=$province AND PostalCode=$zip";
+$sql = " SELECT CID FROM Customer WHERE Firstname=$firstname_cust AND Lastname=$lastname_cust AND PhoneNo=$phone_cust AND City=$city AND Province=$province AND PostalCode=$zip";
+     //. " AND StreetNo=$cu_street_no AND StreetName=$cu_street";
 if($result = $conn->query($sql))
     while($row = $result->fetch_row())
         $cid = $row[0];
+
 $sid = "";
 $sql = "SELECT SID FROM Salesperson WHERE Firstname=$firstname_sp AND Lastname=$lastname_sp AND PhoneNo=$phone_sp";
 if($result = $conn->query($sql))
 	while($row = $result->fetch_row())
 		$sid = $row[0];
 
-$SQL = <<<SQL
-INSERT INTO Sale (SID, CID, VIN, TotalDue, DownPayment, FinancedAmount, InterestRate, SaleDate) VALUES($sid, $cid, $vin, $total_due, $down_pay, $finance_amt, $interest, $date);
-INSERT INTO EmploymentHistory (CID, Employer, StartDate, Title, SupervisorFirstName, SupervisorLastName, StreetNo, StreetName, City, Province, PostalCode) VALUES($cid, $employer, $start, $title, $super_first, $super_last, $eh_street_no, $eh_street, $eh_city, $eh_province, $eh_zip);
+$sale_no = "";
+$sql = "SELECT MAX(SaleNo) FROM Sale";
+if($result = $conn->query($sql))
+	while($row = $result->fetch_row())
+		$sale_no = $row[0] + 1;
+
+$ehid = "";
+$sql = "SELECT MAX(EHID) FROM EmploymentHistory";
+if($result = $conn->query($sql))
+	while($row = $result->fetch_row())
+		$ehid = $row[0] + 1;
+
+$sql = "SELECT VIN FROM Car WHERE VIN=$vin AND Model=$model AND Edition=$edition AND Year=$year AND Sold=0";
+if($result = $conn->query($sql))
+	while($row = $result->fetch_row())
+		$vin = "\"".$row[0]."\"";
+
+
+if($vin) {
+	$SQL = <<<SQL
+INSERT INTO Sale VALUES($sale_no, $sid, $cid, $vin, $total_due, $down_pay, $finance_amt, $interest, $sale_price, $date);
+INSERT INTO EmploymentHistory VALUES($ehid, $cid, $employer, $start, $title, $super_first, $super_last, $eh_street_no, $eh_street, $eh_city, $eh_province, $eh_zip);
 SQL;
+}
 
 ?>
 <div class="col-lg-2"></div>
