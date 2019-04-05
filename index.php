@@ -118,7 +118,7 @@ switch($page_id)
             type: $(this).attr('method'),
             data: $(this).serialize(),
             success: function (response) {
-                $('#view').replaceWith($('#view', $(response)));
+                $('#view').html($('#view > *', $(response)));
                 if(id == "<?= $_GET['form']?>")
                 {
                     //$('#<?= $_GET['form']?>').replaceWith($('#<?= $_GET['form']?>', $(response)));

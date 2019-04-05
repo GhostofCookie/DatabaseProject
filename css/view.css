@@ -15,16 +15,14 @@
 }
 
 .reportbox {
-	cursor: pointer;
-	width: 200px;
+	width: 400px;
     margin: 0 10px 10px 10px;
 	display: inline-block;
 	border: 1px solid #222222;	
 }
 
 .reportbox button {	
-    background: none;
-	border: none;
+	margin-top: 10px;
 	width: 100%;
 }
 .reportbox h3 {
