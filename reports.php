@@ -232,9 +232,9 @@ HAVING COUNT(C.CID) = 1";
 					foreach ($row as $key => $value)
 					{
 						if ($made == false)
-							$head .= "<th style=\"border:1px solid #000; font-size: 20px;\">$key</th>";
+							$head .= "<th style=\"font-size: 20px;\">$key</th>";
 							
-						$tuples .= "<td style=\"border:1px solid #000; font-size: 16px;\">$value</td>";
+						$tuples .= "<td style=\"font-size: 16px;\">$value</td>";
 					}
 					$tuples .= "</tr>";
 					$made = true;
@@ -242,7 +242,7 @@ HAVING COUNT(C.CID) = 1";
 				$head .= "</tr>";
 				
 				echo "<h2>Result</h2>";
-				echo "<table style=\"width:100%; margin: 20px 0; padding: 10px 0;\"";
+				echo "<table  class='table-bordered table-striped col-lg-12'>";
 				echo $head;
 				echo $tuples;
 				echo "</table>";

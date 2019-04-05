@@ -55,6 +55,7 @@ switch($page_id)
     case 4:  $curr_page = "warranties.php"; break;
     case 5:  $curr_page = "payments.php";   break;
     case 6:  $curr_page = "reports.php";    break;
+    case 7:  $curr_page = "customers.php";  break;
     default: $curr_page = "views.php";      break;
 }
 ?>
@@ -82,6 +83,7 @@ switch($page_id)
                 <li <?= $page_id == 3 ? "class=\"active\"" : ""?>><a href="?page_id=3">Car Sale</a></li>
                 <li <?= $page_id == 4 ? "class=\"active\"" : ""?>><a href="?page_id=4">Warranties</a></li>
                 <li <?= $page_id == 5 ? "class=\"active\"" : ""?>><a href="?page_id=5">Payments</a></li>
+                <!--<li <?= $page_id == 7 ? "class=\"active\"" : ""?>><a href="?page_id=7">Customer</a></li>-->
             </ul>
         </div>
     </nav>
@@ -89,15 +91,18 @@ switch($page_id)
         <div class="row">
             <?php if($curr_page) include($curr_page); ?>
         </div>
-        <div id="view">
+        <div class="col-lg-2"></div>
+        <div id="view" class="col-lg-8">
             <?php
 			if(isset($_POST['submit']) && $SQL != "")
 			{
-			    print $SQL;
+
+			    print "<h2>Query</h2><pre>".$SQL."</pre>";
 				$result = $conn->multi_query($SQL);
                 var_dump($result);
 			}
             ?>
+            <div class="col-lg-2"></div>
         </div>
     </div>
 </body>
